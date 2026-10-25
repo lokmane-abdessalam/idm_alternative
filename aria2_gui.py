@@ -92,6 +92,15 @@ class Aria2GUI:
         self.root.title(APP_NAME)
         self.root.geometry("1040x730")
         self.root.minsize(860, 620)
+        # Use the custom PNG logo for the window/task switcher when available.
+        self._window_icon = None
+        icon_path = Path(__file__).resolve().parent / "downloads-icon-android-lollipop.png"
+        if icon_path.is_file():
+            try:
+                self._window_icon = tk.PhotoImage(file=str(icon_path))
+                self.root.iconphoto(True, self._window_icon)
+            except tk.TclError:
+                self._window_icon = None
         self.events = queue.Queue()
         self.jobs = {}
         self._build_ui()
